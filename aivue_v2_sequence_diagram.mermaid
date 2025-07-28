@@ -1,0 +1,94 @@
+sequenceDiagram
+    participant Admin as Admin User
+    participant UI as Admin UI
+    participant AC as AuthContext
+    participant API as Admin API
+    participant DB as Supabase DB
+    participant Log as AuditLogger
+
+    %% Super Admin Portal - Merchant Management Flow
+    Admin->>UI: Login to Super Admin Portal
+    UI->>AC: authenticateAdmin(credentials)
+    AC->>API: login(email, password)
+    API->>DB: supabase.auth.signInWithPassword()
+    DB-->>API: return session
+    API-->>AC: return session
+    AC-->>UI: update auth state
+    UI-->>Admin: Display Admin Dashboard
+
+    Admin->>UI: Navigate to Merchant Management
+    UI->>API: fetchMerchants(filters)
+    API->>DB: supabase.from('merchants').select()
+    DB-->>API: return merchants data
+    API-->>UI: return merchants list
+    UI-->>Admin: Display Merchants List
+
+    Admin->>UI: View Merchant Details
+    UI->>API: fetchMerchantDetails(merchantId)
+    API->>DB: supabase.from('merchants').select().eq('id', merchantId)
+    DB-->>API: return merchant data
+    API->>DB: supabase.from('merchant_users').select().eq('merchant_id', merchantId)
+    DB-->>API: return merchant users
+    API-->>UI: return merchant details
+    UI-->>Admin: Display Merchant Details
+
+    Admin->>UI: Update Merchant Status
+    UI->>API: updateMerchantStatus(merchantId, status)
+    API->>DB: supabase.from('merchants').update({is_active: status}).eq('id', merchantId)
+    API->>Log: logAction('update_merchant_status', merchantId)
+    Log->>DB: supabase.from('audit_logs').insert()
+    DB-->>API: return updated merchant
+    API-->>UI: return success
+    UI-->>Admin: Display Success Notification
+
+    %% Super Admin Portal - User Role Management Flow
+    Admin->>UI: Navigate to Role Management
+    UI->>API: fetchRoles()
+    API->>DB: supabase.from('roles').select()
+    DB-->>API: return roles data
+    API-->>UI: return roles list
+    UI-->>Admin: Display Roles List
+
+    Admin->>UI: Create New Role
+    UI->>Admin: Display Role Creation Form
+    Admin->>UI: Submit Role Details with Permissions
+    UI->>API: createRole(roleData)
+    API->>DB: supabase.from('roles').insert(roleData)
+    DB-->>API: return new role
+    API->>DB: supabase.from('role_permissions').insert(permissionsData)
+    DB-->>API: return permissions mapping
+    API->>Log: logAction('create_role', newRoleId)
+    Log->>DB: supabase.from('audit_logs').insert()
+    API-->>UI: return success
+    UI-->>Admin: Display Success Notification
+
+    %% Campaign Management - Enhanced Reporting Flow
+    participant Merchant as Merchant User
+    participant CUI as Campaign UI
+    participant CAPI as Campaign API
+    participant Report as ReportGenerator
+
+    Merchant->>CUI: Navigate to Campaign Dashboard
+    CUI->>CAPI: fetchCampaigns(merchantId)
+    CAPI->>DB: supabase.from('campaigns').select().eq('merchant_id', merchantId)
+    DB-->>CAPI: return campaigns data
+    CAPI-->>CUI: return campaigns list
+    CUI-->>Merchant: Display Campaigns List
+
+    Merchant->>CUI: View Campaign Performance Report
+    CUI->>CAPI: generateCampaignReport(campaignId, filters)
+    CAPI->>DB: supabase.from('campaign_metrics').select().eq('campaign_id', campaignId)
+    DB-->>CAPI: return metrics data
+    CAPI->>DB: supabase.from('reviews').select().eq('campaign_id', campaignId)
+    DB-->>CAPI: return reviews data
+    CAPI->>Report: processReportData(metricsData, reviewsData, filters)
+    Report-->>CAPI: return processed report data
+    CAPI-->>CUI: return report data
+    CUI-->>Merchant: Display Performance Report with Charts
+
+    Merchant->>CUI: Export Report to PDF
+    CUI->>CAPI: exportReportToPDF(reportData)
+    CAPI->>Report: generatePDF(reportData)
+    Report-->>CAPI: return PDF blob
+    CAPI-->>CUI: return PDF file
+    CUI-->>Merchant: Download PDF Report
