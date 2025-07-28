@@ -1,5 +1,5 @@
 {
-  "timeline_index": 7,
+  "timeline_index": 18,
   "planner": {
     "Team Leader": {
       "1": {
@@ -13,9 +13,24 @@
         "is_finished": true,
         "assignee": "Alex",
         "start_at": 1753728855.4638236,
-        "end_at": 1753728909.589153
+        "end_at": 1753729021.584612
       },
-      "current_task_id": "1"
+      "current_task_id": "2",
+      "2": {
+        "task_id": "2",
+        "dependent_task_ids": [
+          "1"
+        ],
+        "instruction": "Push the updated pnpm-lock.yaml file to the GitHub repository at https://github.com/Vuebie/Vuebie-review-system.",
+        "task_type": "general",
+        "code": "",
+        "result": "",
+        "is_success": false,
+        "is_finished": true,
+        "assignee": "Alex",
+        "start_at": 1753729021.584615,
+        "end_at": 1753729373.5309703
+      }
     }
   },
   "gallery_last_file": {},
@@ -24,7 +39,18 @@
     "4": 1,
     "5": 1,
     "6": 1,
-    "7": 1
+    "7": 1,
+    "8": 1,
+    "9": 1,
+    "10": 1,
+    "11": 1,
+    "12": 1,
+    "13": 1,
+    "14": 1,
+    "15": 1,
+    "16": 1,
+    "17": 1,
+    "18": 1
   },
   "preview_servers": {},
   "preview_server": {
