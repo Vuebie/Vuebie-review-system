@@ -1,7 +1,36 @@
 {
-  "timeline_index": 2,
+  "timeline_index": 7,
+  "planner": {
+    "Team Leader": {
+      "1": {
+        "task_id": "1",
+        "dependent_task_ids": [],
+        "instruction": "Fix the lockfile mismatch error by running pnpm install locally in the project directory to update pnpm-lock.yaml to match package.json.",
+        "task_type": "general",
+        "code": "",
+        "result": "",
+        "is_success": false,
+        "is_finished": true,
+        "assignee": "Alex",
+        "start_at": 1753728855.4638236,
+        "end_at": 1753728909.589153
+      },
+      "current_task_id": "1"
+    }
+  },
+  "gallery_last_file": {},
+  "timeline_status": {
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1
+  },
+  "preview_servers": {},
   "preview_server": {
     "project_dir": "/workspace/shadcn-ui",
+    "status": "initializing",
+    "config_path": ".mgx/config.yaml",
     "timeline_index": 2
   }
 }
