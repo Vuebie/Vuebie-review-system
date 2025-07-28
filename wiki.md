@@ -1,0 +1,75 @@
+# Project Summary
+Vuebie is an AI-powered video analysis platform that transforms raw video content into actionable insights. By leveraging advanced computer vision and machine learning technologies, Vuebie empowers businesses and organizations to extract meaningful insights from their video assets, enabling data-driven decision-making.
+
+# Project Module Description
+- **User Interface**: Intuitive dashboard with navigation for projects, videos, and analysis.
+- **Video Management**: Upload, organize, and process videos with support for various formats.
+- **AI Analysis**: Object detection, face recognition, sentiment analysis, and more.
+- **Reporting**: Generate customizable reports and insights from analysis results.
+- **Collaboration**: Role-based access control for team members and project sharing.
+- **API Integration**: Comprehensive API for external integrations and automation.
+
+# Directory Tree
+```
+/workspace/aivue-v2
+├── docs/                             # Documentation files
+│   ├── api_reference.md              # API documentation
+│   ├── contributing.md                # Contribution guidelines
+│   ├── data_model.md                  # Database schema and data models
+│   ├── deployment_guide.md            # Deployment instructions
+│   ├── developer_docs.md              # Developer documentation
+│   ├── implementation_plan.md          # Implementation roadmap
+│   ├── launch_checklist.md            # Pre-launch checklist
+│   ├── project_summary.md             # Project overview and mission
+│   ├── rebranding_completion_report.md # Report on rebranding completion
+│   ├── test_plan.md                   # Testing strategy and plan
+│   ├── user_guide.md                  # User guide for the platform
+│   └── class_diagram.mermaid          # Class diagram for the architecture
+│   └── sequence_diagram.mermaid       # Sequence diagram for workflows
+├── README.md                          # Project overview and setup instructions
+```
+
+# File Description Inventory
+- **README.md**: Overview of the Vuebie platform, features, and getting started guide.
+- **api_reference.md**: Detailed documentation of API endpoints, authentication, and usage.
+- **contributing.md**: Guidelines for contributing to the project, including coding standards and processes.
+- **data_model.md**: Information on the database schema and core data structures.
+- **deployment_guide.md**: Instructions for deploying the Vuebie platform in various environments.
+- **developer_docs.md**: Technical documentation for developers, covering architecture and workflows.
+- **implementation_plan.md**: Roadmap for implementing new features and enhancements.
+- **launch_checklist.md**: Comprehensive checklist for the launch of the Vuebie platform.
+- **project_summary.md**: Overview of the Vuebie project, mission, and value proposition.
+- **rebranding_completion_report.md**: Summary of the rebranding effort from AIvue to Vuebie.
+- **test_plan.md**: Strategy and plan for testing the platform.
+- **user_guide.md**: Comprehensive guide for users on how to use the Vuebie platform.
+- **class_diagram.mermaid**: Visual representation of the class structure and relationships.
+- **sequence_diagram.mermaid**: Visual representation of the sequence of operations and interactions.
+
+# Technology Stack
+- **Frontend**: Next.js with React and TypeScript
+- **Backend**: Node.js microservices architecture
+- **Database**: PostgreSQL (via Supabase)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+- **Machine Learning**: TensorFlow and PyTorch for AI models
+- **Deployment**: Docker and cloud-based infrastructure (AWS, GCP, etc.)
+
+# Usage
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yourusername/vuebie.git
+   cd vuebie
+   ```
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+3. **Configure environment variables**:
+   ```bash
+   cp .env.example .env
+   ```
+4. **Start the development server**:
+   ```bash
+   npm run dev
+   ```
+5. **Access the application**: Open your browser and navigate to the application URL.

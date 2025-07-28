@@ -1,0 +1,181 @@
+classDiagram
+    class Admin {
+        +string id
+        +string email
+        +string name
+        +string role
+        +Date createdAt
+        +Date updatedAt
+        +login(email: string, password: string): Promise~Session~
+        +logout(): Promise~void~
+        +resetPassword(email: string): Promise~void~
+    }
+
+    class MerchantAccount {
+        +string id
+        +string name
+        +string email
+        +string phone
+        +string address
+        +string logo
+        +boolean isActive
+        +Date createdAt
+        +Date updatedAt
+        +Object settings
+        +createMerchant(data: MerchantData): Promise~MerchantAccount~
+        +updateMerchant(id: string, data: Partial~MerchantData~): Promise~MerchantAccount~
+        +deleteMerchant(id: string): Promise~void~
+        +activateMerchant(id: string): Promise~MerchantAccount~
+        +deactivateMerchant(id: string): Promise~MerchantAccount~
+    }
+
+    class MerchantUser {
+        +string id
+        +string merchantId
+        +string name
+        +string email
+        +string role
+        +boolean isActive
+        +Date createdAt
+        +Date updatedAt
+        +createUser(data: UserData): Promise~MerchantUser~
+        +updateUser(id: string, data: Partial~UserData~): Promise~MerchantUser~
+        +deleteUser(id: string): Promise~void~
+        +resetUserPassword(id: string): Promise~void~
+    }
+
+    class Role {
+        +string id
+        +string name
+        +Array~Permission~ permissions
+        +boolean isSystemRole
+        +Date createdAt
+        +Date updatedAt
+        +createRole(data: RoleData): Promise~Role~
+        +updateRole(id: string, data: Partial~RoleData~): Promise~Role~
+        +deleteRole(id: string): Promise~void~
+    }
+
+    class Permission {
+        +string id
+        +string name
+        +string description
+        +string resource
+        +Array~string~ actions
+        +createPermission(data: PermissionData): Promise~Permission~
+        +updatePermission(id: string, data: Partial~PermissionData~): Promise~Permission~
+        +deletePermission(id: string): Promise~void~
+    }
+
+    class GlobalSettings {
+        +string id
+        +Object generalSettings
+        +Object securitySettings
+        +Object notificationSettings
+        +Object integrationSettings
+        +Date updatedAt
+        +updateSettings(data: Partial~SettingsData~): Promise~GlobalSettings~
+        +restoreDefaults(): Promise~GlobalSettings~
+    }
+
+    class AuditLog {
+        +string id
+        +string userId
+        +string action
+        +string resource
+        +string resourceId
+        +Object metadata
+        +Date createdAt
+        +createLog(data: LogData): Promise~AuditLog~
+        +queryLogs(filters: LogFilters): Promise~Array~AuditLog~~
+    }
+
+    class Dashboard {
+        +getStats(): Promise~SystemStats~
+        +getMerchantStats(merchantId: string): Promise~MerchantStats~
+        +getSystemHealth(): Promise~HealthStatus~
+    }
+
+    class Campaign {
+        +string id
+        +string merchantId
+        +string name
+        +string description
+        +Date startDate
+        +Date endDate
+        +boolean isActive
+        +Object settings
+        +Date createdAt
+        +Date updatedAt
+        +createCampaign(data: CampaignData): Promise~Campaign~
+        +updateCampaign(id: string, data: Partial~CampaignData~): Promise~Campaign~
+        +deleteCampaign(id: string): Promise~void~
+        +activateCampaign(id: string): Promise~Campaign~
+        +deactivateCampaign(id: string): Promise~Campaign~
+    }
+
+    class CampaignOutlet {
+        +string id
+        +string campaignId
+        +string outletId
+        +Date createdAt
+        +addOutletToCampaign(campaignId: string, outletId: string): Promise~CampaignOutlet~
+        +removeOutletFromCampaign(campaignId: string, outletId: string): Promise~void~
+    }
+
+    class CampaignMetrics {
+        +string id
+        +string campaignId
+        +number reviewCount
+        +number viewCount
+        +number conversionRate
+        +Object demographicData
+        +Object engagementData
+        +Date updatedAt
+        +getCampaignMetrics(campaignId: string): Promise~CampaignMetrics~
+        +getComparativeMetrics(campaignIds: string[]): Promise~Array~CampaignMetrics~~
+    }
+
+    class CampaignReport {
+        +generateReport(campaignId: string, filters: ReportFilters): Promise~ReportData~
+        +exportReport(reportData: ReportData, format: string): Promise~Blob~
+        +scheduleReport(campaignId: string, schedule: ScheduleConfig): Promise~ScheduledReport~
+    }
+
+    class ABTest {
+        +string id
+        +string campaignId
+        +string name
+        +Array~string~ variants
+        +Object results
+        +boolean isActive
+        +Date startDate
+        +Date endDate
+        +createABTest(data: ABTestData): Promise~ABTest~
+        +updateABTest(id: string, data: Partial~ABTestData~): Promise~ABTest~
+        +endABTest(id: string): Promise~ABTest~
+        +getABTestResults(id: string): Promise~ABTestResults~
+    }
+
+    class CampaignAnalytics {
+        +getPerformanceOverTime(campaignId: string, timeframe: string): Promise~PerformanceData~
+        +getEngagementMetrics(campaignId: string): Promise~EngagementData~
+        +getConversionFunnel(campaignId: string): Promise~FunnelData~
+    }
+
+    Admin --> Role : has
+    Role --> Permission : contains
+    Admin --> AuditLog : creates
+    Admin --> MerchantAccount : manages
+    MerchantAccount --> MerchantUser : has
+    MerchantUser --> Role : has
+    Admin --> GlobalSettings : configures
+    Dashboard ..> MerchantAccount : displays
+    Dashboard ..> AuditLog : displays
+    Campaign --> CampaignOutlet : has
+    Campaign --> CampaignMetrics : has
+    Campaign --> ABTest : has
+    CampaignReport ..> Campaign : analyzes
+    CampaignReport ..> CampaignMetrics : uses
+    CampaignAnalytics ..> Campaign : analyzes
+    CampaignAnalytics ..> CampaignMetrics : uses
